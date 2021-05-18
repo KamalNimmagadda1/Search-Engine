@@ -39,11 +39,11 @@ We use a NetworkX library to compute PageRank using the edges.txt as input. This
 In order to add the PageRank to Solr, we need to define the external_pageRankFile.txt as an external field in Solr managed-schema and add event listeners in solrconfig.xml.
 
 1.	Add the following fields to managed-schema: 
-<fieldType name=”external” keyField=”id” defVal=”0” class=”solr.ExternalFileField”/>
-<field name=”pageRankFile” type=”external” stored=”false” indexed=”false”/>
+ [<fieldType name=”external” keyField=”id” defVal=”0” class=”solr.ExternalFileField”/>]
+[<field name=”pageRankFile” type=”external” stored=”false” indexed=”false”/>]
 2.	Define these listeners within the <query> element in the solrconfig.xml file:
-<listener event=”newSearcher” class=”org.apache.solr.schema.ExternalFileFieldReloader”/> 
-<listener event=”firstSearcher” class=”org.apache.solr.schema.ExternalFileFieldReloader”/>
+[<listener event=”newSearcher” class=”org.apache.solr.schema.ExternalFileFieldReloader”/>]
+[<listener event=”firstSearcher” class=”org.apache.solr.schema.ExternalFileFieldReloader”/>]
 3.	Reload the index, by going to the Solr Dashboard UI -> Core Admin and clicking on the “Reload” button.
   
 ## Setting up the Webpage
