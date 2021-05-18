@@ -34,3 +34,26 @@ We use a NetworkX library to compute PageRank using the edges.txt as input. This
 1.	Compute PageRank using the following parameters: alpha=0.85, personalization=None, max_iter=30, tol=1e-06, nstart=None, weight='weight', dangling=None
 2.	Run pageRank.py to generate external_pageRankFile.txt. 
 3.	Place the external_pageRankFile.txt in the data folder of the example1 core in Solr-8.8.2 folder.
+
+## Adding PageRank to Solr
+In order to add the PageRank to Solr, we need to define the external_pageRankFile.txt as an external field in Solr managed-schema and add event listeners in solrconfig.xml.
+
+1.	Add the following fields to managed-schema: 
+<fieldType name=”external” keyField=”id” defVal=”0” class=”solr.ExternalFileField”/>
+<field name=”pageRankFile” type=”external” stored=”false” indexed=”false”/>
+2.	Define these listeners within the <query> element in the solrconfig.xml file:
+<listener event=”newSearcher” class=”org.apache.solr.schema.ExternalFileFieldReloader”/> 
+<listener event=”firstSearcher” class=”org.apache.solr.schema.ExternalFileFieldReloader”/>
+3.	Reload the index, by going to the Solr Dashboard UI -> Core Admin and clicking on the “Reload” button.
+  
+## Setting up the Webpage
+Now that the PageRank is added to Solr, we need an interface to interact and collect data, to compare the two ranking algorithms. For that, we are going to write a PHP webpage which sends a request to Solr and utilizes and displays the search results.
+
+1.	Set the parameters of Lucene and PageRank algorithm:
+lucene: fl: title,og_url,og_description,id
+pageRank: fl: title,og_url,og_description,id; sort: pageRankFile desc
+2.	Create a new solr service instance, we send request to https://localhost, port: 8983 and path: /solr/example1.
+3.	Get the response and show 4 fields in html: title(or NA), URL, description(or NA), id.
+
+## Analyzing and Comparing the Ranking Algorithms
+Once the setup is completed, we can use the webpage we wrote to find out the search results for different queries. The following pictures are screenshots of the search results for term “Cannes” in the search engine. We can also see that all the links shown are redirected to their host site.
