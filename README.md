@@ -39,11 +39,13 @@ We use a NetworkX library to compute PageRank using the edges.txt as input. This
 In order to add the PageRank to Solr, we need to define the external_pageRankFile.txt as an external field in Solr managed-schema and add event listeners in solrconfig.xml.
 
 1.	Add the following fields to managed-schema: 
- [<fieldType name=”external” keyField=”id” defVal=”0” class=”solr.ExternalFileField”/>]
-[<field name=”pageRankFile” type=”external” stored=”false” indexed=”false”/>]
+ <fieldType name=”external” keyField=”id” defVal=”0” class=”solr.ExternalFileField”/>
+<field name=”pageRankFile” type=”external” stored=”false” indexed=”false”/>
+![image](https://user-images.githubusercontent.com/55113221/118718968-bc040400-b7dc-11eb-9dbe-a1a39beb3c1e.png)
 2.	Define these listeners within the <query> element in the solrconfig.xml file:
-[<listener event=”newSearcher” class=”org.apache.solr.schema.ExternalFileFieldReloader”/>]
-[<listener event=”firstSearcher” class=”org.apache.solr.schema.ExternalFileFieldReloader”/>]
+ <listener event=”newSearcher” class=”org.apache.solr.schema.ExternalFileFieldReloader”/> 
+<listener event=”firstSearcher” class=”org.apache.solr.schema.ExternalFileFieldReloader”/>
+![image](https://user-images.githubusercontent.com/55113221/118719000-c6be9900-b7dc-11eb-94b6-0ba4ee7ddf38.png)
 3.	Reload the index, by going to the Solr Dashboard UI -> Core Admin and clicking on the “Reload” button.
   
 ## Setting up the Webpage
@@ -57,3 +59,7 @@ pageRank: fl: title,og_url,og_description,id; sort: pageRankFile desc
 
 ## Analyzing and Comparing the Ranking Algorithms
 Once the setup is completed, we can use the webpage we wrote to find out the search results for different queries. The following pictures are screenshots of the search results for term “Cannes” in the search engine. We can also see that all the links shown are redirected to their host site.
+
+## Overlap
+We can see much difference between the two ranking algorithms as there is no significant overlap between the two. We can only observe a single overlap on a single query. The overlap graph looks as follows.
+<img width="526" alt="Overlap graph" src="https://user-images.githubusercontent.com/55113221/118719102-e48bfe00-b7dc-11eb-949b-a5f1ef066a14.png">
