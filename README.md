@@ -1,3 +1,5 @@
+A part of this project was not uploaded to prevent leak of system information an Another part of it is separated as Indexing was done on GCP. You can find link to Indexing in [Inverted Index](https://github.com/KamalNimmagadda1/Inverted-Index)
+
 # Lucene Vs PageRank
 
 ## Overview
